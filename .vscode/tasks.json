@@ -41,7 +41,10 @@
 				"--target",
 				"all",
 			],
-			"group": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 
 		{

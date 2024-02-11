@@ -9,27 +9,28 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Edit project name
-project(gnu-arm-template)
+project(stm32-freertos-example)
 
 # Edit CPU options
 set(CPU_OPTIONS
-        # -mcpu=cortex-m4
-        # -mthumb
-        # -mfpu=fpv4-sp-d16
-        # -mfloat-abi=hard
+        -mcpu=cortex-m4
+        -mthumb
+        -mfpu=fpv4-sp-d16
+        -mfloat-abi=hard
 )
 
 # Edit Link script file
-set(LINK_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/FLASH.ld)
-
+set(LINK_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/STM32L475VGTx_FLASH.ld)
 
 # Add C source files
 file(GLOB C_SOURCES CONFIGURE_DEPENDS
-
+        Core/Src/*.c
+        Drivers/STM32L4xx_HAL_Driver/Src/*.c
 )
 
 # Add assembly files
 set(ASM_SOURCES
+        startup_stm32l475xx.s
 )
 
 set(EXECUTABLE ${PROJECT_NAME}.elf)
@@ -38,10 +39,17 @@ add_executable(${EXECUTABLE} ${C_SOURCES} ${ASM_SOURCES})
 
 # Add defines
 target_compile_definitions(${EXECUTABLE} PRIVATE
+        USE_HAL_DRIVER
+        STM32L475xx
 )
 
 # Add includes paths
 target_include_directories(${EXECUTABLE} PRIVATE
+        Core/Inc
+        Drivers/STM32L4xx_HAL_Driver/Inc
+        Drivers/STM32L4xx_HAL_Driver/Inc/Legacy
+        Drivers/CMSIS/Device/ST/STM32L4xx/Include
+        Drivers/CMSIS/Include
 )
 
 # Add compile options

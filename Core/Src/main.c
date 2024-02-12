@@ -21,7 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "FreeRTOS.h"
+#include "task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,7 +55,7 @@ UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
-
+TaskHandle_t led_handler;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,7 +74,14 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+static void led_task(void *arg)
+{
 
+  while (1) {
+    vTaskDelay(1000);
+    HAL_GPIO_TogglePin(GPIOC, LED3_WIFI__LED4_BLE_Pin);
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -83,7 +91,6 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -113,6 +120,10 @@ int main(void)
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
 
+	xTaskCreate(led_task, "LED_task", 128, NULL, 1, &led_handler);
+  
+
+  vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,8 +133,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_Delay(1000);
-    HAL_GPIO_TogglePin(GPIOC, LED3_WIFI__LED4_BLE_Pin);
+    // HAL_Delay(1000);
+    // HAL_GPIO_TogglePin(GPIOC, LED3_WIFI__LED4_BLE_Pin);
   }
   /* USER CODE END 3 */
 }

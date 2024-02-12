@@ -52,6 +52,11 @@
 extern uint32_t SystemCoreClock;
 
 #define configCPU_CLOCK_HZ                         ( ( unsigned long ) SystemCoreClock )
+
+/******************************************************************************/
+/* Scheduling behaviour related definitions. **********************************/
+/******************************************************************************/
+
 #define configTICK_RATE_HZ                         ( (TickType_t)1000)
 #define configUSE_PREEMPTION                       1
 #define configUSE_TIME_SLICING                     0
@@ -72,6 +77,11 @@ extern uint32_t SystemCoreClock;
 #define configHEAP_CLEAR_MEMORY_ON_FREE            1
 #define configSTATS_BUFFER_MAX_LENGTH              0xFFFF
 #define configUSE_NEWLIB_REENTRANT                 0
+
+/******************************************************************************/
+/* Software timer related definitions. ****************************************/
+/******************************************************************************/
+
 #define configUSE_TIMERS                1
 #define configTIMER_TASK_PRIORITY       ( configMAX_PRIORITIES - 1 )
 #define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
@@ -80,7 +90,7 @@ extern uint32_t SystemCoreClock;
 /******************************************************************************/
 /* Memory allocation related definitions. *************************************/
 /******************************************************************************/
-#define configSUPPORT_STATIC_ALLOCATION              0
+#define configSUPPORT_STATIC_ALLOCATION              1
 #define configSUPPORT_DYNAMIC_ALLOCATION             1
 #define configTOTAL_HEAP_SIZE                        4096
 #define configAPPLICATION_ALLOCATED_HEAP             0
@@ -144,6 +154,13 @@ PRIORITY THAN THIS! (higher priorities are lower numeric values. */
     }
 
 /******************************************************************************/
+/* ARMv8-M secure side port related definitions. ******************************/
+/******************************************************************************/
+
+#define secureconfigMAX_SECURE_CONTEXTS        5
+#define configKERNEL_PROVIDED_STATIC_MEMORY    1
+
+/******************************************************************************/
 /* Definitions that include or exclude functionality. *************************/
 /******************************************************************************/
 
@@ -176,7 +193,6 @@ PRIORITY THAN THIS! (higher priorities are lower numeric values. */
 #define INCLUDE_xTaskAbortDelay                0
 #define INCLUDE_xTaskGetHandle                 0
 #define INCLUDE_xTaskResumeFromISR             1
-
 
 #define vPortSVCHandler    SVC_Handler
 #define xPortPendSVHandler PendSV_Handler

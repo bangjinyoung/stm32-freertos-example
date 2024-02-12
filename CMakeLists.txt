@@ -24,8 +24,19 @@ set(LINK_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/STM32L475VGTx_FLASH.ld)
 
 # Add C source files
 file(GLOB C_SOURCES CONFIGURE_DEPENDS
+        # Generated CubeMX sources
         Core/Src/*.c
+
+        # STM32 HAL soruces
         Drivers/STM32L4xx_HAL_Driver/Src/*.c
+
+        # Application sources
+        src/*.c
+
+        # freeRTOS sources
+        lib/freeRTOS/*.c
+        lib/freeRTOS/portable/GCC/ARM_CM4F/port.c
+        lib/freeRTOS/portable/MemMang/heap_4.c
 )
 
 # Add assembly files
@@ -45,11 +56,21 @@ target_compile_definitions(${EXECUTABLE} PRIVATE
 
 # Add includes paths
 target_include_directories(${EXECUTABLE} PRIVATE
+        # Generated CubeMX's include
         Core/Inc
+
+        # STM32F4 HAL includes
         Drivers/STM32L4xx_HAL_Driver/Inc
         Drivers/STM32L4xx_HAL_Driver/Inc/Legacy
         Drivers/CMSIS/Device/ST/STM32L4xx/Include
         Drivers/CMSIS/Include
+
+        # Application includes
+        src
+
+        # freeRTOS includes 
+        lib/freeRTOS/include
+        lib/freeRTOS/portable/GCC/ARM_CM4F
 )
 
 # Add compile options
